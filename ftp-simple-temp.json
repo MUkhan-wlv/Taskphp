@@ -1,0 +1,13 @@
+[
+	{
+		"name": "localhost",
+		"host": "mi-linux.wlv.ac.uk",
+		"port": 21,
+		"type": "ftp",
+		"username": "2323425",
+		"password": "Sardaruza1r12",
+		"path": "/home/stud/1/2323425/public_html",
+		"autosave": true,
+		"confirm": true
+	}
+]

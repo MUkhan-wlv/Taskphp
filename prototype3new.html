@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>My weather app</title>
+  </head>
+  <body>
+<h1>Weather in Tottenham</h1>
+<p id="myParagraph">Please wait...</p>
+<p id="myTemp">Please wait...</p>
+<p id="myDate">Please wait...</p>
+<p id="myLastUpdated">Please wait...</p>
+
+<script>
+
+// Check browser cache first, use if there and less than 10 seconds old
+if(localStorage.when != null
+   && parseInt(localStorage.when) + 10000 > Date.now()) {
+
+      let freshness = Math.round((Date.now() - localStorage.when)/1000) + " second(s)";
+      document.getElementById("myParagraph").innerHTML = localStorage.myWeather;
+      document.getElementById("myTemp").innerHTML = localStorage.myTemperature;
+      document.getElementById("myLastUpdated").innerHTML = freshness;
+	
+// No local cache, access network
+} else {
+	
+	   // Fetch Tottenham weather data from API
+	fetch('https://mi-linux.wlv.ac.uk/~2323425/prototype2.html')
+
+	  // Convert response string to json object
+	  .then(response => response.json())
+	  .then(response => {
+
+		// Display whole API response in browser console (take a look at it!)
+		console.log(response);
+
+		// Copy one element of response to our HTML paragraph
+		document.getElementById("myParagraph").innerHTML = response.weather_description;
+		document.getElementById("myTemp").innerHTML = response.weather_temperature + '°C';
+		document.getElementById("myDate").innerHTML = response.weather_when;
+		
+		// Save new data to browser, with new timestamp
+        localStorage.myWeather = response.weather_description;
+        localStorage.myTemperature = response.weather_temperature + '°C';
+        localStorage.when = Date.now(); // milliseconds since January 1 1970
+
+
+			
+
+
+	  })
+	  .catch(err => {
+
+		// Display errors in console
+		console.log(err);
+	});
+}
+
+</script>
+  </body>
+</html>
